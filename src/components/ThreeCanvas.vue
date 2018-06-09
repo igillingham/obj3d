@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>OBJ 3D Canvas</h2>
-  <div id="container"></div>
+  <div id="container" class="canvas-container"></div>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
       camera: null,
       scene: null,
       renderer: null,
-      mesh: null
+      mesh: null,
     }
   },
   methods: {
@@ -38,6 +38,7 @@ export default {
       container.appendChild(this.renderer.domElement)
     },
     animate: function () {
+      console.log('ThreeCanvas: Animate()')
       requestAnimationFrame(this.animate)
       this.mesh.rotation.x += 0.01
       this.mesh.rotation.y += 0.02
@@ -52,5 +53,11 @@ export default {
 </script>
 
 <style scoped>
+  .canvas-container {
+    border: 1px;
+    border-radius: 2px;
+    width: 300px;
+    height: 300px;
+  }
 
 </style>
