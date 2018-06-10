@@ -15,7 +15,7 @@ export default {
       camera: null,
       scene: null,
       renderer: null,
-      mesh: null,
+      mesh: null
     }
   },
   methods: {
