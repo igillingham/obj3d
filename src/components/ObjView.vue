@@ -1,25 +1,31 @@
 <template>
-  <div>
+  <div  v-on:input="selectfile">
     <h2>View OBJ Image File</h2>
-    <div id="objcontainer" class="obj-container"></div>
+    <div id="objcontainer" class="obj-container" ></div>
+    <div id="fselbutton">
+      <p>My File Selector: <SelectFile v-model="file"></SelectFile></p>
+      <p v-if="file">{{file.name}}</p>
+    </div>
   </div>
 </template>
 
 <script>
-  /* eslint-disable indent */
-
+/* eslint-disable indent */
+  import Vue from 'vue'
   import * as Three from 'three'
-
+  import SelectFile from './SelectFile'
 
 export default
 {
   name: 'ObjView',
+  components: {SelectFile},
   data () {
     return {
       camera: null,
       scene: null,
       renderer: null,
-      mesh: null
+      mesh: null,
+      file: null
     }
   },
   methods:
@@ -36,46 +42,44 @@ export default
         this.renderer.setSize(container.clientWidth, container.clientHeight)
         container.appendChild(this.renderer.domElement)
         // instantiate the loader
-        this.loader = new Three.ObjectLoader();
+        this.loader = new Three.ObjectLoader()
 
+        this.fselbutton = new Vue({
+          el: '#fselbutton',
+          data: {
+          value: ''
+          }
+      })
       },
-      loadobj: function()
-        {
+      selectfile: function (arg) {
+        console.log('ObjView: selectfile() callback')
+        let fileuri = arg.toString()
+        console.log('selectfile(): arg = ', fileuri)
+        this.loadobj(fileuri)
+        },
+      loadobj: function (filename) {
         // load a resource
         this.loader.load(
           // resource URL
-          '${BASE_URL}/assets/teapot.obj',
+          filename,
           // called when resource is loaded
-          function (object)
-            {
-            this.scene.add(object);
+          function (object) {
+            this.scene.add(object)
             },
           // called when loading is in progresses
-          function (xhr)
-            {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded');
+          function (xhr) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded')
             },
           // called when loading has errors
-          function (error)
-            {
-            console.log('An error happened');
+          function (error) {
+            console.log('Ian - you have an error (sorry about that): %s', error)
             }
           )
-        },
-      animate: function ()
-        {
-        console.log('OBJ Image: Animate()')
-        requestAnimationFrame(this.animate)
-        this.mesh.rotation.x += 0.01
-        this.mesh.rotation.y += 0.02
-        this.renderer.render(this.scene, this.camera)
         }
     },
-  mounted ()
-    {
+  mounted () {
     this.init()
-    this.loadobj()
-    // this.animate()
+    // this.loadobj()
     }
   }
 </script>
