@@ -4,7 +4,6 @@
 > in preparation for OBJ image metrics exercise.
 
 ## Overview
-An exercise is anticipated, the subject of which is an OBJ 3D image file of a person's face.
 The objective is to determine the distance between the pupils (centres).
 
 The JavaScript library: Three.js has been suggested as a basis for the task.
